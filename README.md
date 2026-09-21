@@ -7,7 +7,7 @@ A simple Multi-Agent AI chatbot POC for analyzing documents and PowerPoint templ
 ### 1. Clone the project
 
 ```bash
-git clone https://github.com/<your-username>/poc-chatbot.git
+git clone <repo-url>
 cd poc-chatbot
 ```
 
