@@ -1,0 +1,19 @@
+# Sample Enterprise Knowledge — NovaTech Solutions
+
+Company overview:
+NovaTech Solutions is a fictional technology company used only for testing this POC.
+
+AI strategy:
+The company is exploring document automation, enterprise search, and GenAI-assisted content creation.
+
+Security:
+Internal knowledge should be accessed through approved services and should not be included in public prompts without authorization.
+
+Business priorities:
+1. Reduce time spent on research and drafting.
+2. Improve consistency across proposals and presentations.
+3. Improve source traceability.
+4. Keep generated Word and PowerPoint artifacts editable.
+
+Preferred tone:
+Professional, concise, executive-friendly, evidence-driven, and practical.

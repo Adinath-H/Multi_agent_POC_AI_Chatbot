@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-Agent Document AI</title>
+  <style>
+    body{font-family:Arial,sans-serif;max-width:1000px;margin:30px auto;padding:0 16px;background:#f7f8fb;color:#20232a}
+    .card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:18px;margin-bottom:16px}
+    button{padding:10px 14px;border:0;border-radius:8px;background:#222;color:#fff;cursor:pointer}
+    input,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;margin:8px 0}
+    textarea{min-height:110px}
+    .msg{white-space:pre-wrap;background:#f2f3f5;padding:12px;border-radius:8px;margin-top:10px}
+    .artifact{padding:10px;margin:7px 0;background:#eef7ee;border-radius:8px}
+    small{color:#666}
+  </style>
+</head>
+<body>
+  <h1>Multi-Agent Document & PPT AI</h1>
+  <p><small>POC: Supervisor + Analysis + Web Research + RAG + Generation + Validation + Editing</small></p>
+
+  <div class="card">
+    <h3>1. Session</h3>
+    <button onclick="newSession()">New Session</button>
+    <div id="session">No session</div>
+  </div>
+
+  <div class="card">
+    <h3>2. Upload templates / enterprise files</h3>
+    <input id="files" type="file" multiple accept=".pdf,.docx,.pptx,.png,.jpg,.jpeg,.bmp,.tiff,.txt,.md">
+    <button onclick="uploadFiles()">Upload</button>
+    <div id="uploaded"></div>
+  </div>
+
+  <div class="card">
+    <h3>3. Chat</h3>
+    <textarea id="message" placeholder="Example: Research the latest generative AI trends and create a proposal and 12-slide presentation using the style of the uploaded files."></textarea>
+    <button onclick="sendMessage()">Run agents</button>
+    <div id="result"></div>
+  </div>
+
+<script>
+let sessionId = null;
+async function newSession(){
+  const r = await fetch('/session',{method:'POST'}); const d=await r.json();
+  sessionId=d.session_id; document.getElementById('session').textContent='Session: '+sessionId;
+}
+async function uploadFiles(){
+  if(!sessionId) await newSession();
+  const fd=new FormData(); fd.append('session_id',sessionId);
+  for(const f of document.getElementById('files').files) fd.append('files',f);
+  const r=await fetch('/upload',{method:'POST',body:fd}); const d=await r.json();
+  document.getElementById('uploaded').textContent='Uploaded: '+(d.files||[]).join(', ');
+}
+async function sendMessage(){
+  if(!sessionId) await newSession();
+  const message=document.getElementById('message').value;
+  const r=await fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,message})});
+  const d=await r.json(); let html='<div class="msg">'+(d.answer||'')+'</div>';
+  if(d.artifacts?.length){ html+='<h4>Artifacts</h4>'; for(const a of d.artifacts){html+=`<div class="artifact"><b>${a.filename}</b> — v${a.version} — <a href="/download/${sessionId}/${a.filename}">Download</a></div>`;} }
+  if(d.sources?.length){ html+='<h4>Sources</h4><ul>'; for(const s of d.sources){html+=`<li>${s.url?`<a href="${s.url}" target="_blank">${s.title}</a>`:s.title}</li>`;} html+='</ul>'; }
+  document.getElementById('result').innerHTML=html;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+Sample prompts for the Multi-Agent Document & PPT POC
+
+1. Research the latest Generative AI trends and create a proposal and 12-slide presentation using the same tone and style as the uploaded files.
+
+2. Create a proposal from the uploaded DOCX template about an enterprise AI document automation solution. Use the company knowledge file and include citations.
+
+3. Create a 12-slide PPTX from the uploaded presentation template about Generative AI adoption in enterprises.
+
+4. Add an executive summary to the generated proposal.
+
+5. Make the presentation more concise without changing the visual style.
+
+6. Add a competitive analysis section to the proposal.
+
+7. Update the report using the latest web information and keep source URLs.
+
+8. Convert the generated proposal into a PowerPoint presentation.
+
+9. Create a new version with a shorter executive summary and preserve the existing formatting.
